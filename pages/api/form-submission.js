@@ -18,40 +18,57 @@ router
   })
   .post(async (req, res) => {
     // use async/await
-   res.status(201).send({message : "ok"})
-  })
+    const data = req.body.data
+    console.log(data);
 
- // onError and onNoMatch
-export default router.handler({
-    onError: (err, req, res, next) => {
-      console.error(err.stack);
-      res.status(500).end("Something broke!");
+  // const transporter = nodemailer.createTransport({
+  //   port: 465,
+  //   host: "smtp.gmail.com",
+  //   auth: {
+  //     user: 'dutao.ae@gmail.com',
+  //     pass: 'Dutao@123',
+  //   },
+  //   secure: true,
+  // })
+
+  const transporter = nodemailer.createTransport({
+    host: 'mail.atiharhossanmahir.com',
+    port: 465,
+    secure: true, // use TLS
+    auth: {
+      user: 'dev@atiharhossanmahir.com',
+      pass: process.env.PASS,
     },
-    onNoMatch: (req, res) => {
-      res.status(404).end("Page is not found");
+    tls: {
+      // do not fail on invalid certs
+      rejectUnauthorized: false,
     },
   });
 
-  const transporter = nodemailer.createTransport({
-    port: 465,
-    host: "smtp.gmail.com",
-    auth: {
-      user: 'dutao.ae@gmail.com',
-      pass: 'Dutao@123',
-    },
-    secure: true,
-  })
-
   //building email for user activation
   const mailData = {
-    from: 'no-reply@dutao.com',
-    to: 'mahir.mahir890@gmail.com',
+    from: 'Website Form',
+    to: process.env.RECEIVER,
     subject: `Complete your account`,
     text: 'Hello,\n Welcome. Please click on the link to verify your account.\n',
     html: `
     <!DOCTYPE html>
   <html>
-        <h1>Working</h1>
+        <h1>A new employee just filled the form. Detailed</h1>
+        <p>First Name : ${data.firstName}</p>
+        <p>Last Name : ${data.lastName}</p>
+        <p>Address : ${data.address}</p>
+        <p>City : ${data.city}</p>
+        <p>Country : ${data.country}</p>
+        <p>Favourite social media : ${data.favSocial}</p>
+        <p>Spends time on social media(daily hrs) : ${data.avgOnSocial}</p>
+        <p>Favorite Book : ${data.favBook}</p>
+        <p>Favorite Color : ${data.favColor}</p>
+        <p>Favorite Book : ${data.favBook}</p>
+        <p>Current company : ${data.company}</p>
+        <p>Portfolio Link : ${data.portfolio}</p>
+        <p>GitHub Link : ${data.github}</p>
+        <p>Notice Period : ${data.notice}</p>
   </html>`
   }
 
@@ -63,3 +80,16 @@ export default router.handler({
     // res.send("success");
       console.log(info)
   })
+
+})
+
+// onError and onNoMatch
+export default router.handler({
+   onError: (err, req, res, next) => {
+     console.error(err.stack);
+     res.status(500).end("Something broke!");
+   },
+   onNoMatch: (req, res) => {
+     res.status(404).end("Page is not found");
+   },
+ });
