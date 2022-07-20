@@ -21,16 +21,6 @@ router
     const data = req.body.data
     console.log(data);
 
-  // const transporter = nodemailer.createTransport({
-  //   port: 465,
-  //   host: "smtp.gmail.com",
-  //   auth: {
-  //     user: 'dutao.ae@gmail.com',
-  //     pass: 'Dutao@123',
-  //   },
-  //   secure: true,
-  // })
-
   const transporter = nodemailer.createTransport({
     host: 'mail.atiharhossanmahir.com',
     port: 465,
