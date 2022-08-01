@@ -36,6 +36,7 @@ export default function Home() {
   const backPage = (e) => {
     e.preventDefault()
     setPage(page > 0 ? page-1 : 0)
+    setSuccess(false)
     setProgress(progress-25)
   }
 
